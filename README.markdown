@@ -16,6 +16,18 @@
 && tar zxvf apache-storm-2.2.0-SNAPSHOT.tar.gz
 && cd apache-storm-2.2.0-SNAPSHOT/
 
+## Run Zookeeper(https://www.apache.org/dyn/closer.cgi/zookeeper/)
+
+1. wget http://apache.01link.hk/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
+2. tar -xvf zookeeper-3.4.14.tar.gz
+3. cd zookeeper-3.4.14/
+4. cp conf/zoo_sample.cfg conf/zoo.cfg
+5. ./bin/zkServer.sh start
+
+## Run nimbus, supervisor
+
+1. follow http://admicloud.github.io/www/storm.html
+
 ## Useful Link
 
 1. https://help.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository

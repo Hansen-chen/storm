@@ -75,10 +75,10 @@ public class BoltExecutor extends Executor {
 
     private class AES {
  
-        private static SecretKeySpec secretKey;
-        private static byte[] key;
+        private SecretKeySpec secretKey;
+        private byte[] key;
     
-        public static void setKey(String myKey) 
+        public void setKey(String myKey) 
         {
             MessageDigest sha = null;
             try {
@@ -96,7 +96,7 @@ public class BoltExecutor extends Executor {
             }
         }
     
-        public static String encrypt(String strToEncrypt, String secret) 
+        public String encrypt(String strToEncrypt, String secret) 
         {
             try
             {
@@ -112,7 +112,7 @@ public class BoltExecutor extends Executor {
             return null;
         }
     
-        public static String decrypt(String strToDecrypt, String secret) 
+        public String decrypt(String strToDecrypt, String secret) 
         {
             try
             {

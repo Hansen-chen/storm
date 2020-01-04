@@ -49,6 +49,7 @@
 2. https://stackoverflow.com/questions/35149422/how-to-fix-the-maven-check-style-error
 3. http://admicloud.github.io/www/storm.html (under examples/storm-example-for-decryption)
 4. https://howtodoinjava.com/security/java-aes-encryption-example/
+5. https://web.archive.org/web/20160404004949/http://saurabhsaxena.net/how-to-find-storm-worker-log-directory/
 
 
 Master Branch:  

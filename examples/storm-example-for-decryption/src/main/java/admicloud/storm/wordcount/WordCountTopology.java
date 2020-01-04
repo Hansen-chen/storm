@@ -33,8 +33,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class WordCountTopology {
   private static Logger LOG = LoggerFactory.getLogger(WordCountTopology.class);
 
-  private AES aes;
-
   private class AES {
  
         private SecretKeySpec secretKey;
@@ -146,6 +144,7 @@ public class WordCountTopology {
 
   public static class WordCount extends BaseBasicBolt {
     Map<String, Integer> counts = new HashMap<String, Integer>();
+    private AES aes;
 
     @Override
     public void execute(Tuple tuple, BasicOutputCollector collector) {

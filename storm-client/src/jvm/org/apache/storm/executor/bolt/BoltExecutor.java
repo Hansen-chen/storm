@@ -61,7 +61,7 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
  
-public class AES {
+private class AES {
  
     private static SecretKeySpec secretKey;
     private static byte[] key;

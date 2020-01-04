@@ -3,7 +3,7 @@
 ## Build Storm
 
 1. mvn dependency::tree
-2. mvn clean package install -DskipTests=true 
+2. mvn clean package install -DskipTests=true -Dcheckstyle.skip
 && cd storm-dist/binary 
 && mvn package -Dgpg.skip=true
 && cp ./final-package/target/apache-storm-2.2.0-SNAPSHOT.tar.gz ~/source_code/storm/compiled 

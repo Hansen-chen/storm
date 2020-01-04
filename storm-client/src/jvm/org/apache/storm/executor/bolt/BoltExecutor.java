@@ -108,7 +108,7 @@ public class BoltExecutor extends Executor {
             } 
             catch (Exception e) 
             {
-                return "Error while encrypting";
+                //return "Error while encrypting";
             }
             return null;
         }
@@ -124,7 +124,7 @@ public class BoltExecutor extends Executor {
             } 
             catch (Exception e) 
             {
-                return "Error while decrypting";
+                //return "Error while decrypting";
             }
             return null;
         }

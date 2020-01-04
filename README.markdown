@@ -7,7 +7,7 @@
 
 ## Build Storm
 
-1. mvn dependency::tree
+1. *** Optional *** mvn dependency::tree
 2. mvn clean package install -DskipTests=true -Dcheckstyle.skip
 && cd storm-dist/binary 
 && mvn package -Dgpg.skip=true

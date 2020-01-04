@@ -28,6 +28,21 @@
 
 1. follow http://admicloud.github.io/www/storm.html
 
+## Run simulation
+
+1. under '~/source_code/storm/compiled/apache-storm-2.2.0-SNAPSHOT/examples/storm-starter'
+2. mvn package -Dcheckstyle.skip
+3. ./../../bin/storm jar ./target/storm-starter-2.2.0-SNAPSHOT.jar org.apache.storm.starter.WordCountTopology
+4. ./../../bin/storm kill word-count
+
+## Get Log
+1. under '~/source_code/storm/compiled/apache-storm-2.2.0-SNAPSHOT/logs/workers-artifacts/'
+2. cd topology name
+3. cd worker id
+4. grep 'decrypt' worker.log
+
+
+
 ## Useful Link
 
 1. https://help.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository

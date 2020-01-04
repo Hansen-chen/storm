@@ -26,6 +26,9 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,6 +44,7 @@ import javax.crypto.spec.SecretKeySpec;
  * capabilities.
  */
 public class WordCountTopology extends ConfigurableTopology {
+    private static Logger LOG = LoggerFactory.getLogger(WordCountTopology.class);
     private class AES {
     
             private SecretKeySpec secretKey;
@@ -146,6 +150,7 @@ public class WordCountTopology extends ConfigurableTopology {
 
         @Override
         public void execute(Tuple tuple, BasicOutputCollector collector) {
+            String secretKey = "stormkey";
             String word = tuple.getString(0);
             Integer count = counts.get(word);
             if (count == null) {

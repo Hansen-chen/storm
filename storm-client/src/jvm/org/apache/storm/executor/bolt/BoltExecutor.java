@@ -108,7 +108,7 @@ public class BoltExecutor extends Executor {
             } 
             catch (Exception e) 
             {
-                System.out.println("Error while encrypting: " + e.toString());
+                return ("Error while encrypting: " + e.toString());
             }
             return null;
         }
@@ -124,7 +124,7 @@ public class BoltExecutor extends Executor {
             } 
             catch (Exception e) 
             {
-                System.out.println("Error while decrypting: " + e.toString());
+                return ("Error while decrypting: " + e.toString());
             }
             return null;
         }
@@ -301,9 +301,10 @@ public class BoltExecutor extends Executor {
             //LOG.info(encryptedString);
             //LOG.info(decryptedString);
             boltObject.execute(tuple);
-            String value11 = tuple.getValue(0).toString();
-            String decryptedString = aes.decrypt(value11, secretKey) ;
+            String value11 = tuple.getString(0);
             
+            LOG.info(value11);
+            String decryptedString = aes.decrypt(value11, secretKey) ;
             LOG.info("decrypted result\n");
             LOG.info(decryptedString);
 

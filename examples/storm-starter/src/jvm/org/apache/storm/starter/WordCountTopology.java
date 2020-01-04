@@ -79,7 +79,7 @@ public class WordCountTopology extends ConfigurableTopology {
                 } 
                 catch (Exception e) 
                 {
-                    System.out.println("Error while encrypting: " + e.toString());
+                    return ("Error while encrypting: " + e.toString());
                 }
                 return null;
             }
@@ -95,7 +95,7 @@ public class WordCountTopology extends ConfigurableTopology {
                 } 
                 catch (Exception e) 
                 {
-                    System.out.println("Error while decrypting: " + e.toString());
+                    return ("Error while decrypting: " + e.toString());
                 }
                 return null;
             }

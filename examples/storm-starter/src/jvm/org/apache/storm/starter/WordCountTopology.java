@@ -161,7 +161,7 @@ public class WordCountTopology extends ConfigurableTopology {
             LOG.info("Count of word: " + word + " = " + count);
             String countStr = Integer.toString(count); 
             String encryptedString = aes.encrypt(countStr, secretKey) ;
-            
+            LOG.info("Encryption: " + countStr + " = " + encryptedString);
             
             
             collector.emit(new Values(word, encryptedString));

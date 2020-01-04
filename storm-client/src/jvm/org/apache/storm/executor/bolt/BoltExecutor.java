@@ -304,9 +304,9 @@ public class BoltExecutor extends Executor {
             String value11 = tuple.getString(0);
             
             LOG.info(value11);
-            String decryptedString = aes.decrypt(value11, secretKey) ;
-            LOG.info("decrypted result\n");
-            LOG.info(decryptedString);
+            //String decryptedString = aes.decrypt(value11, secretKey) ;
+            LOG.info("decrypted result: ");
+            //LOG.info(decryptedString);
 
             Long ms = tuple.getExecuteSampleStartTime();
             long delta = (ms != null) ? Time.deltaMs(ms) : -1;

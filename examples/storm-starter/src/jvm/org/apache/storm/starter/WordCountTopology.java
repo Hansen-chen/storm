@@ -159,7 +159,7 @@ public class WordCountTopology extends ConfigurableTopology {
             count++;
             counts.put(word, count);
             LOG.info("Count of word: " + word + " = " + count);
-            String countStr = Integer.toString(count); 
+            String countStr = count.toString(); 
             String encryptedString = aes.encrypt(countStr, secretKey) ;
             LOG.info("Encryption: " + countStr + " = " + encryptedString);
             

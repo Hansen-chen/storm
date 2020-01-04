@@ -295,18 +295,13 @@ public class BoltExecutor extends Executor {
                 tuple.setExecuteSampleStartTime(now);
             }
             String secretKey = "stormkey";
-            //String originalString = "howtodoinjava.com";
-            //String encryptedString = aes.encrypt(originalString, secretKey) ;
-            //String decryptedString = aes.decrypt(encryptedString, secretKey) ;
-            //LOG.info(encryptedString);
-            //LOG.info(decryptedString);
             boltObject.execute(tuple);
             String value11 = tuple.getString(0);
-            
+            LOG.info("decryption start");
             LOG.info(value11);
-            //String decryptedString = aes.decrypt(value11, secretKey) ;
+            String decryptedString = aes.decrypt(value11, secretKey) ;
             LOG.info("decrypted result: ");
-            //LOG.info(decryptedString);
+            LOG.info(decryptedString);
 
             Long ms = tuple.getExecuteSampleStartTime();
             long delta = (ms != null) ? Time.deltaMs(ms) : -1;

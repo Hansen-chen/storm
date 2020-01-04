@@ -9,10 +9,13 @@
 && cp ./final-package/target/apache-storm-2.2.0-SNAPSHOT.tar.gz ~/source_code/storm/compiled 
 && cd  ~/source_code/storm/compiled 
 && tar zxvf apache-storm-2.2.0-SNAPSHOT.tar.gz
+&& cd apache-storm-2.2.0-SNAPSHOT/
 
 ## Useful Link
 
 1. https://help.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository
+2. https://stackoverflow.com/questions/35149422/how-to-fix-the-maven-check-style-error
+
 
 Master Branch:  
 [![Travis CI](https://travis-ci.org/apache/storm.svg?branch=master)](https://travis-ci.org/apache/storm)

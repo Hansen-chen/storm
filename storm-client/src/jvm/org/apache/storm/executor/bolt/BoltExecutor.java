@@ -72,6 +72,7 @@ public class BoltExecutor extends Executor {
     private final BoltExecutorStats stats;
     private final BuiltinMetrics builtInMetrics;
     private BoltOutputCollectorImpl outputCollector;
+    private AES aes;
 
     private class AES {
  
@@ -295,8 +296,8 @@ public class BoltExecutor extends Executor {
             }
             String secretKey = "key";
             String originalString = "howtodoinjava.com";
-            String encryptedString = AES.encrypt(originalString, secretKey) ;
-            String decryptedString = AES.decrypt(encryptedString, secretKey) ;
+            String encryptedString = aes.encrypt(originalString, secretKey) ;
+            String decryptedString = aes.decrypt(encryptedString, secretKey) ;
             LOG.info(encryptedString);
             LOG.info(decryptedString);
             boltObject.execute(tuple);

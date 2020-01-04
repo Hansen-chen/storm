@@ -158,7 +158,7 @@ public class WordCountTopology {
       counts.put(word, count);
       LOG.info("Count of word: " + word + " = " + count);
       String countStr = Integer.toString(count); 
-      String encryptedString = aes.encrypt(value11, secretKey) ;
+      String encryptedString = aes.encrypt(countStr, secretKey) ;
       collector.emit(new Values(word, encryptedString));
     }
 

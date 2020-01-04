@@ -1,3 +1,19 @@
+# Storm copy used by Hansen
+
+## Build Storm
+
+1. mvn dependency::tree
+2. mvn clean package install -DskipTests=true 
+&& cd storm-dist/binary 
+&& mvn package -Dgpg.skip=true
+&& cp ./final-package/target/apache-storm-2.2.0-SNAPSHOT.tar.gz ~/source_code/storm/compiled 
+&& cd  ~/source_code/storm/compiled 
+&& tar zxvf apache-storm-2.2.0-SNAPSHOT.tar.gz
+
+## Useful Link
+
+1. https://help.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository
+
 Master Branch:  
 [![Travis CI](https://travis-ci.org/apache/storm.svg?branch=master)](https://travis-ci.org/apache/storm)
 [![Maven Version](https://maven-badges.herokuapp.com/maven-central/org.apache.storm/storm-core/badge.svg)](http://search.maven.org/#search|gav|1|g:"org.apache.storm"%20AND%20a:"storm-core")

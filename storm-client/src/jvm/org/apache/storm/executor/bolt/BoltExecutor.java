@@ -298,8 +298,8 @@ public class BoltExecutor extends Executor {
             String originalString = "howtodoinjava.com";
             String encryptedString = AES.encrypt(originalString, secretKey) ;
             String decryptedString = AES.decrypt(encryptedString, secretKey) ;
-            LOG.info(encryptedString)
-            LOG.info(decryptedString)
+            LOG.info(encryptedString);
+            LOG.info(decryptedString);
             boltObject.execute(tuple);
 
             Long ms = tuple.getExecuteSampleStartTime();

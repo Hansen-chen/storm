@@ -1,5 +1,10 @@
 # Storm copy used by Hansen
 
+## Machine
+### Address : 202.45.128.162
+### No. : 3
+### Gate : gatekeeper.cs.hku.hk
+
 ## Build Storm
 
 1. mvn dependency::tree

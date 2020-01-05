@@ -164,8 +164,8 @@ public class WordCountTopology extends ConfigurableTopology {
             LOG.info("Encryption: " + countStr + " = " + encryptedString);
             
             
-            collector.emit(new Values(word, encryptedString));
-            //collector.emit(new Values(word, count));
+            //collector.emit(new Values(word, encryptedString));
+            collector.emit(new Values(word, count));
         }
 
         @Override

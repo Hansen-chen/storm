@@ -296,7 +296,7 @@ public class BoltExecutor extends Executor {
             }
             String secretKey = "stormkey";
             boltObject.execute(tuple);
-            String value11 = tuple.getString(0);
+            String value11 = tuple.getValue(0).toString();
             LOG.info("decryption start");
             LOG.info(value11);
             String decryptedString = aes.decrypt(value11, secretKey) ;

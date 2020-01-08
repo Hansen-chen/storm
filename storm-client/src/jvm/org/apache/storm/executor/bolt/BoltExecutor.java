@@ -295,6 +295,7 @@ public class BoltExecutor extends Executor {
                 tuple.setExecuteSampleStartTime(now);
             }
             String secretKey = "stormkey";
+
             boltObject.execute(tuple);
             String value11 = tuple.getValue(0).toString();
             LOG.info("decryption start");

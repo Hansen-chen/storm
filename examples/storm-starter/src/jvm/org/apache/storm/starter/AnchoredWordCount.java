@@ -12,10 +12,11 @@
 
 package org.apache.storm.starter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
 import org.apache.storm.Config;
 import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -29,8 +30,73 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 import org.apache.storm.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class AnchoredWordCount extends ConfigurableTopology {
+
+    private static Logger LOG = LoggerFactory.getLogger(WordCountTopology.class);
+    private class AES {
+
+        private SecretKeySpec secretKey;
+        private byte[] key;
+
+        public void setKey(String myKey)
+        {
+            MessageDigest sha = null;
+            try {
+                key = myKey.getBytes("UTF-8");
+                sha = MessageDigest.getInstance("SHA-1");
+                key = sha.digest(key);
+                key = Arrays.copyOf(key, 16);
+                secretKey = new SecretKeySpec(key, "AES");
+            }
+            catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String encrypt(String strToEncrypt, String secret)
+        {
+            try
+            {
+                setKey(secret);
+                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+            }
+            catch (Exception e)
+            {
+                //return "Error while encrypting";
+            }
+            return null;
+        }
+
+        public String decrypt(String strToDecrypt, String secret)
+        {
+            try
+            {
+                setKey(secret);
+                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+                cipher.init(Cipher.DECRYPT_MODE, secretKey);
+                return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+            }
+            catch (Exception e)
+            {
+                //return "Error while decrypting";
+            }
+            return null;
+        }
+    }
 
     protected int run(String[] args) throws Exception {
         TopologyBuilder builder = new TopologyBuilder();
@@ -95,12 +161,15 @@ public class AnchoredWordCount extends ConfigurableTopology {
         }
     }
 
+    //Encryption
     public static class SplitSentence extends BaseBasicBolt {
+        private AES aes;
         @Override
         public void execute(Tuple tuple, BasicOutputCollector collector) {
             String sentence = tuple.getString(0);
+            String secretKey = "stormkey";
             for (String word : sentence.split("\\s+")) {
-                collector.emit(new Values(word, 1));
+                collector.emit(new Values(aes.encrypt(word,secretKey), 1));
             }
         }
 
@@ -111,16 +180,21 @@ public class AnchoredWordCount extends ConfigurableTopology {
     }
 
     public static class WordCount extends BaseBasicBolt {
+        private AES aes;
         Map<String, Integer> counts = new HashMap<>();
 
+        //Decryption
         @Override
         public void execute(Tuple tuple, BasicOutputCollector collector) {
+            String secretKey = "stormkey";
             String word = tuple.getString(0);
+            word = aes.decrypt(word, secretKey);
             Integer count = counts.get(word);
             if (count == null) {
                 count = 0;
             }
             count++;
+            LOG.info("decrypt and calculate : "+ word+ " : "+count);
             counts.put(word, count);
             collector.emit(new Values(word, count));
         }
@@ -128,6 +202,18 @@ public class AnchoredWordCount extends ConfigurableTopology {
         @Override
         public void declareOutputFields(OutputFieldsDeclarer declarer) {
             declarer.declare(new Fields("word", "count"));
+        }
+
+        @Override
+        public void cleanup() {
+            LOG.info("--- FINAL COUNTS ---");
+            List<String> keys = new ArrayList<String>();
+            keys.addAll(this.counts.keySet());
+            Collections.sort(keys);
+            for (String key : keys) {
+                LOG.info(key + " : " + this.counts.get(key));
+            }
+            LOG.info("--------------");
         }
     }
 }

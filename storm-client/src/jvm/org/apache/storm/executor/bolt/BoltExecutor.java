@@ -72,14 +72,14 @@ public class BoltExecutor extends Executor {
     private final BoltExecutorStats stats;
     private final BuiltinMetrics builtInMetrics;
     private BoltOutputCollectorImpl outputCollector;
-    private AES aes;
 
-    private class AES {
+
+
  
-        private SecretKeySpec secretKey;
-        private byte[] key;
+        private static SecretKeySpec secretKey;
+        private static byte[] key;
     
-        public void setKey(String myKey) 
+        public static void setKey(String myKey)
         {
             MessageDigest sha = null;
             try {
@@ -97,7 +97,7 @@ public class BoltExecutor extends Executor {
             }
         }
     
-        public String encrypt(String strToEncrypt, String secret) 
+        public static String encrypt(String strToEncrypt, String secret)
         {
             try
             {
@@ -113,7 +113,7 @@ public class BoltExecutor extends Executor {
             return null;
         }
     
-        public String decrypt(String strToDecrypt, String secret) 
+        public static String decrypt(String strToDecrypt, String secret)
         {
             try
             {
@@ -128,7 +128,7 @@ public class BoltExecutor extends Executor {
             }
             return null;
         }
-    }
+
 
     public BoltExecutor(WorkerState workerData, List<Long> executorId, Map<String, String> credentials) {
         super(workerData, executorId, credentials, ClientStatsUtil.BOLT);
@@ -295,20 +295,27 @@ public class BoltExecutor extends Executor {
                 tuple.setExecuteSampleStartTime(now);
             }
             String secretKey = "stormkey";
+            if(tuple.contains("word")){
+                String word = tuple.getValue(tuple.fieldIndex("word")).toString();
+                LOG.info("Try decryption start");
+                LOG.info(word);
+                try
+                {
+                    String decryptedString = BoltExecutor.decrypt(word, secretKey) ;
+                    LOG.info("decrypted result: ");
+                    LOG.info(decryptedString);
+                }
+                catch (Exception ex){
+                    LOG.info("decrypted result: not input value");
+                }
+            }
+            else
+            {
+                LOG.info("not input value, don't need decryption");
+            }
 
             boltObject.execute(tuple);
-            String value11 = tuple.getValue(0).toString();
-            LOG.info("Try decryption start");
-            LOG.info(value11);
-            try
-            {
-                String decryptedString = aes.decrypt(value11, secretKey) ;
-                LOG.info("decrypted result: ");
-                LOG.info(decryptedString);
-            }
-            catch (Exception ex){
-                LOG.info("decrypted result: not input value");
-            }
+
 
 
             Long ms = tuple.getExecuteSampleStartTime();

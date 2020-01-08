@@ -42,12 +42,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class AnchoredWordCount extends ConfigurableTopology {
 
     private static Logger LOG = LoggerFactory.getLogger(WordCountTopology.class);
-    private class AES {
 
-        private SecretKeySpec secretKey;
-        private byte[] key;
 
-        public void setKey(String myKey)
+        private static SecretKeySpec secretKey;
+        private static byte[] key;
+
+        public static void setKey(String myKey)
         {
             MessageDigest sha = null;
             try {
@@ -65,7 +65,7 @@ public class AnchoredWordCount extends ConfigurableTopology {
             }
         }
 
-        public String encrypt(String strToEncrypt, String secret)
+        public static String encrypt(String strToEncrypt, String secret)
         {
             try
             {
@@ -81,7 +81,7 @@ public class AnchoredWordCount extends ConfigurableTopology {
             return null;
         }
 
-        public String decrypt(String strToDecrypt, String secret)
+        public static String decrypt(String strToDecrypt, String secret)
         {
             try
             {
@@ -96,7 +96,7 @@ public class AnchoredWordCount extends ConfigurableTopology {
             }
             return null;
         }
-    }
+
     public static void main(String[] args) throws Exception {
         ConfigurableTopology.start(new AnchoredWordCount(), args);
     }
@@ -165,13 +165,12 @@ public class AnchoredWordCount extends ConfigurableTopology {
 
     //Encryption
     public static class SplitSentence extends BaseBasicBolt {
-        private AES aes;
         @Override
         public void execute(Tuple tuple, BasicOutputCollector collector) {
             String sentence = tuple.getString(0);
             String secretKey = "stormkey";
             for (String word : sentence.split("\\s+")) {
-                collector.emit(new Values(aes.encrypt(word,secretKey), 1));
+                collector.emit(new Values(AnchoredWordCount.encrypt(word,secretKey), 1));
             }
         }
 
@@ -182,7 +181,6 @@ public class AnchoredWordCount extends ConfigurableTopology {
     }
 
     public static class WordCount extends BaseBasicBolt {
-        private AES aes;
         Map<String, Integer> counts = new HashMap<>();
 
         //Decryption
@@ -190,7 +188,7 @@ public class AnchoredWordCount extends ConfigurableTopology {
         public void execute(Tuple tuple, BasicOutputCollector collector) {
             String secretKey = "stormkey";
             String word = tuple.getString(0);
-            word = aes.decrypt(word, secretKey);
+            word = AnchoredWordCount.decrypt(word, secretKey);
             Integer count = counts.get(word);
             if (count == null) {
                 count = 0;

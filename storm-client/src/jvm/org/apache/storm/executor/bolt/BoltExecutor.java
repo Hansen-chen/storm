@@ -298,11 +298,18 @@ public class BoltExecutor extends Executor {
 
             boltObject.execute(tuple);
             String value11 = tuple.getValue(0).toString();
-            LOG.info("decryption start");
+            LOG.info("Try decryption start");
             LOG.info(value11);
-            String decryptedString = aes.decrypt(value11, secretKey) ;
-            LOG.info("decrypted result: ");
-            LOG.info(decryptedString);
+            try
+            {
+                String decryptedString = aes.decrypt(value11, secretKey) ;
+                LOG.info("decrypted result: ");
+                LOG.info(decryptedString);
+            }
+            catch (Exception ex){
+                LOG.info("decrypted result: not input value");
+            }
+
 
             Long ms = tuple.getExecuteSampleStartTime();
             long delta = (ms != null) ? Time.deltaMs(ms) : -1;

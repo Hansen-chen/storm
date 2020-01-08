@@ -97,7 +97,9 @@ public class AnchoredWordCount extends ConfigurableTopology {
             return null;
         }
     }
-
+    public static void main(String[] args) throws Exception {
+        ConfigurableTopology.start(new AnchoredWordCount(), args);
+    }
     protected int run(String[] args) throws Exception {
         TopologyBuilder builder = new TopologyBuilder();
 

@@ -296,7 +296,8 @@ public class BoltExecutor extends Executor {
             }
             String secretKey = "stormkey";
             if(tuple.contains("word")){
-                String word = tuple.getValue(tuple.fieldIndex("word")).toString();
+                //String word = tuple.getValue(tuple.fieldIndex("word")).toString();
+                String word = tuple.getStringByField("word");
                 LOG.info("Try decryption start");
                 LOG.info(word);
                 try

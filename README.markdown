@@ -32,7 +32,7 @@
 
 1. under '~/source_code/storm/compiled/apache-storm-2.2.0-SNAPSHOT/examples/storm-starter'
 2. mvn package -Dcheckstyle.skip
-3. ./../../bin/storm jar ./target/storm-starter-2.2.0-SNAPSHOT.jar org.apache.storm.starter.WordCountTopology
+3. ./../../bin/storm jar ./target/storm-starter-2.2.0-SNAPSHOT.jar org.apache.storm.starter.AnchoredWordCount
 4. ./../../bin/storm kill word-count
 
 ## Get Log
